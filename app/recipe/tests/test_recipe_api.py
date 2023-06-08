@@ -20,9 +20,11 @@ from recipe.serializers import (
 
 RECIPES_URL = reverse('recipe:recipe-list')
 
+
 def detail_url(recipe_id):
     """Create and return a recipe detail URL."""
     return reverse('recipe:recipe-detail', args=[recipe_id])
+
 
 def create_recipe(user, **params):
     """Create and return a sample recipe."""
@@ -35,9 +37,9 @@ def create_recipe(user, **params):
     }
     defaults.update(params)
 
-
     recipe = Recipe.objects.create(user=user, **defaults)
     return recipe
+
 
 def create_user(**params):
     """Create and return a new user."""
@@ -55,6 +57,7 @@ class PublicRecipeAPITests(TestCase):
         res = self.client.get(RECIPES_URL)
 
         self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
+
 
 class PrivateRecipeApiTests(TestCase):
     """Test authenticated API requests."""
@@ -78,7 +81,8 @@ class PrivateRecipeApiTests(TestCase):
 
     def test_recipe_list_limited_to_user(self):
         """Test list of recipes is limited to authenticated user."""
-        other_user = create_user(email='other@example.com', password='password123')
+        other_user = create_user(email='other@example.com',
+                                 password='password123')
         create_recipe(user=other_user)
         create_recipe(user=self.user)
 
@@ -142,10 +146,10 @@ class PrivateRecipeApiTests(TestCase):
             description='Sample recipe description',
         )
 
-        payload  = {
-            'title':'Sample recipe title',
-            'link':'https://example.com/recipe.pdf',
-            'description':'Sample recipe description',
+        payload = {
+            'title': 'Sample recipe title',
+            'link': 'https://example.com/recipe.pdf',
+            'description': 'Sample recipe description',
             'time_minutes': 10,
             'price': Decimal('2.50'),
         }
