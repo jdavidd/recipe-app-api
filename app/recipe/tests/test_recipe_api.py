@@ -411,12 +411,12 @@ class PrivateRecipeApiTests(TestCase):
         r2.ingredients.add(in2)
         r3 = create_recipe(user=self.user, title='Red lentil dal')
 
-        params = {'ingredients':f'{in1.id},{in2.id}'}
-        res = self.client.get(RECIPES_URL)
+        params = {'ingredients': f'{in1.id},{in2.id}'}
+        res = self.client.get(RECIPES_URL, params)
 
-        s1 = RecipeDetailSerializer(r1)
-        s2 = RecipeDetailSerializer(r2)
-        s3 = RecipeDetailSerializer(r3)
+        s1 = RecipeSerializer(r1)
+        s2 = RecipeSerializer(r2)
+        s3 = RecipeSerializer(r3)
         self.assertIn(s1.data, res.data)
         self.assertIn(s2.data, res.data)
         self.assertNotIn(s3.data, res.data)
